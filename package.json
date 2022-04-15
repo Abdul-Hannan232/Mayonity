@@ -2,7 +2,6 @@
   "name": "saasbox",
   "version": "0.1.0",
   "homepage": "",
-  "proxy": "http://mayonity-admin.local.com:8080",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^5.14.1",

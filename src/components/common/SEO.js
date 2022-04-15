@@ -6,7 +6,8 @@ export default function SEO(props) {
     return(
         <HelmetProvider>
             <Helmet>
-                <title>Mayonity-Software Development Company </title>
+                {/* <title>Mayonity-Software Development Company </title> */}
+                <title>Mayonity </title>
             </Helmet>
         </HelmetProvider>
     )

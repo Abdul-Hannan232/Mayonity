@@ -107,3 +107,5 @@ export default function App() {
     </div>
   );
 }
+
+// "proxy": "http://mayonity-admin.local.com:8080",

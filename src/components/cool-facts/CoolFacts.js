@@ -1,7 +1,21 @@
+import { useEffect, useState } from 'react';
 import SectionHeading from '../heading/HeadingOne';
 import SingleCoolFact from './SingleCoolFact';
 
 export default function CoolFacts() {
+    const [milestoneData,setMilestonedata] = useState();
+
+    useEffect(() => {
+        const fetchMilestonesData = async () => {
+            const [milestoneResponse] = await (await fetch("https://www.admin.mayonity.com/api/count-section?_format=json")).json();
+
+            setMilestonedata(milestoneResponse);            
+            
+        }
+        fetchMilestonesData();
+
+    }, [])
+
     return(
         <div className="cool-facts-wrapper">
             {/* Circle Animation */}
@@ -19,31 +33,31 @@ export default function CoolFacts() {
 
             {/* Heading: src > components > heading > Heading */}
             <SectionHeading
-                subtitle="Some Milestone"
-                heading="We already completed 470 projects successfully and more counting."
+                subtitle={milestoneData?.field_cs_subheading ? milestoneData?.field_cs_subheading : "Some Milestones" }
+                heading={milestoneData?.field_cs_mainheading ? milestoneData?.field_cs_mainheading : "We already completed multiple projects successfully and more counting."}
             />
 
             <div className="container">
                 <div className="row g-4 justify-content-center">
                     {/* Single Cool Fact */}
                     <SingleCoolFact 
-                        countUpValue="478" 
+                        countUpValue={milestoneData?.field_cs_count1 ? milestoneData?.field_cs_count1 : "12"}
                         suffix="+" 
-                        title="Total Projects"
+                        title={milestoneData?.field_cs_count1_text ? milestoneData?.field_cs_count1_text : "Total Projects"}
                     />
                     
                     {/* Single Cool Fact */}
                     <SingleCoolFact 
-                        countUpValue="21" 
+                        countUpValue={milestoneData?.field_cs_count2 ? milestoneData?.field_cs_count2 : "7"}
                         suffix="+" 
-                        title="Team Members"
+                        title={milestoneData?.field_cs_count2_text ? milestoneData?.field_cs_count2_text : "Team Members"}
                     />
                     
                     {/* Single Cool Fact */}
                     <SingleCoolFact 
-                        countUpValue="3618" 
+                        countUpValue={milestoneData?.field_cs_count3 ? milestoneData?.field_cs_count3 : "1219"} 
                         suffix="+" 
-                        title="Coffee Served"
+                        title={milestoneData?.field_cs_count3_text ? milestoneData?.field_cs_count3_text : "Coffee Served"}
                     />
                 </div>
             </div>

@@ -1,27 +1,46 @@
+import { useEffect, useState } from 'react';
+
 import AboutText from "./AboutText";
 import SingleAbout from "./SingleAbout";
-import AboutData from '../../data/about/about.json';
+// import AboutData from '../../data/about/about.json';
 
 export default function AboutOne() {
+    const [aboutData, setAboutData] = useState([]);
+    const [aboutText, setAboutText] = useState();
 
-    const aboutItems = AboutData.slice(0, 4);
-    const abouts = aboutItems.map((about, index) =>
-        <SingleAbout 
-            key={index} 
-            bgColor={about.bgColor} 
-            icon={about.icon} 
-            iconBgColor={about.iconBgColor} 
-            title={about.title} 
-            titleColor={about.titleColor} 
-            subtitle={about.subtitle} 
-            subtitleColor={about.subtitleColor}
+    // const aboutItems = AboutData.slice(0, 4);
+    const abouts = aboutData?.map((about, index) =>
+        <SingleAbout
+            key={index}
+            // bgColor={about.bgColor}
+            icon={about.field_s_logo}
+            // iconBgColor={about.iconBgColor}
+            title={about.title}
+            // titleColor={about.titleColor}
+            subtitle={about.field_s_para}
+            // subtitleColor={about.subtitleColor}
         />
     )
 
-    return(
+    useEffect(() => {
+        const fetchAboutData = async () => {
+            const aboutDataResponse = await (await fetch("https://www.admin.mayonity.com/api/all-services?_format=json")).json();
+
+            const [aboutTextResponse] = await (await fetch("https://www.admin.mayonity.com/api/key-services?_format=json")).json();
+
+            setAboutData(aboutDataResponse);
+            setAboutText(aboutTextResponse)
+            
+        }
+        fetchAboutData();
+
+    }, [])
+
+
+    return (
         <div className="about-area">
             <div className="container">
-                <div className="row align-items-center justify-content-between g-5">                
+                <div className="row align-items-center justify-content-between g-5">
                     <div className="col-12 col-lg-7">
                         <div className="about-content">
                             <div className="row g-4 g-xl-5">
@@ -32,13 +51,13 @@ export default function AboutOne() {
 
                     {/* About Text */}
                     <AboutText
-                        subtitle="Our key features"
-                        title="We focus on growth of your business."
-                        para="It's crafted with the latest trend of design &amp; coded with all modern approaches. It's a robust &amp; multi-dimensional usable template."
-                        btnOneText="Discover More"
-                        btnOneUrl="/about-standard"
-                        btnTwoText="Talk with us"
-                        btnTwoUrl="/contact"
+                        subtitle={aboutText?.field_ks_subheading}
+                        title={aboutText?.field_ks_mainheading}
+                        para={aboutText?.field_ks_para}
+                        btnOneText={aboutText?.field_ks_btn1_text ? aboutText?.field_ks_btn1_text : "More Services"}
+                        btnOneUrl={aboutText?.field_ks_btn1_link ? aboutText?.field_ks_btn1_link : "/services"}
+                        btnTwoText={aboutText?.field_ks_btn2_text ? aboutText?.field_ks_btn2_text : "Talk With Us"}
+                        btnTwoUrl={aboutText?.field_ks_btn2_link ? aboutText?.field_ks_btn2_link : "/contact"}
                     />
                 </div>
             </div>
