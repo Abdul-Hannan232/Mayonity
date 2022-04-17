@@ -5,7 +5,7 @@ export default function Cta1(props) {
     const {CtaThumb, title, btnUrl, btnText} = props;
 
     return(
-        <div className="cta-area pt-120 pb-120 bg-img bg-fixed bg-overlay" style={{backgroundImage: `url(${process.env.PUBLIC_URL}/${CtaThumb})`}}>
+        <div className="cta-area pt-120 pb-120 bg-img bg-fixed bg-overlay" style={{backgroundImage: `url(${CtaThumb})`}}>
             <div className="container">
                 <div className="row">
                     <div className="col-12 col-sm-10 col-md-8">

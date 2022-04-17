@@ -23,18 +23,19 @@ export default function CreativeAgency() {
     const BackEndUrl = useContext(BackEndUrlContext);
 
     const [homeBanner, setHomeBanner] = useState('');
+    const [homeCTA, sethomeCTA] = useState('');
     useEffect(() => {
         async function fetchMyAPI() {
-            // let baseURL = "https://www.admin.mayonity.com/api/home-banner?_format=json"
-
-            let response = await fetch('http://www.admin.mayonity.com/api/home-banner?_format=json')
-
-            console.log(response);
-            response = await response.json()
-            console.log(response);
-
+            
+ 
+            try{let response =await (await fetch(BackEndUrl+"/api/home-banner?_format=json")).json();
             setHomeBanner(response);
-
+            const homeCTAresp = await (await fetch(BackEndUrl+"/api/all-cta?_format=json")).json();
+            sethomeCTA(homeCTAresp[0])
+        }catch(e)
+        {
+            console.log("Internet Problem",e)
+        }
         }
         fetchMyAPI()
     }, [])
@@ -94,6 +95,7 @@ export default function CreativeAgency() {
             <Divider />
 
             <Divider />
+            
 
             {/* <Services /> */}
 
@@ -135,12 +137,12 @@ export default function CreativeAgency() {
             <BlogOne /> */}
 
             <Divider />
-
+            {console.log("homeCTA tes",homeCTA)}
             <Cta1
-                CtaThumb={'assets/img/bg-img/1.jpg'}
-                title="Build a beautiful website very easily within few hours, not a day."
-                btnUrl="/contact"
-                btnText="Get started now"
+                CtaThumb={homeCTA?BackEndUrl+homeCTA.field_hc_image:''}
+                title={homeCTA?homeCTA.field_hc_mainheading:"Build a beautiful website very easily within few hours, not a day."}
+                btnUrl={homeCTA?homeCTA.field_hc_btn_link:"/contact"}
+                btnText={homeCTA?homeCTA.field_hc_btn_text:"Get started now"}
             />
 
             <Footer

@@ -7,7 +7,7 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BackEndUrlContext } from './BackEndUrlContext';
-const BackEndUrl="http://mayonity-admin.local.com:8080";
+const BackEndUrl="https://www.admin.mayonity.com";
 ReactDOM.render(
   <React.Fragment>
     <BrowserRouter>
