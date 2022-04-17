@@ -6,21 +6,35 @@ import CtaThree from "../components/cta/CtaThree";
 import Footer from "../components/footer/Footer";
 import TeamData from "../data/team/team-member.json";
 import SEO from "../components/common/SEO";
+import React from "react";
 
-export default function AllTeamMembers() {
-    const TeamMembersData = TeamData.map((item, index) => (
+export default function AllTeamMembers() {  
+const[AllTeamMembers,setAllTeamData]=React.useState([]);
+    React.useEffect(() => {
+        const fetchAllTeamMemberData = async () => {
+            const allTeamDataResponse = await (await fetch("https://www.admin.mayonity.com/api/all-team-members?_format=json")).json();
+          console.log("all team member",allTeamDataResponse);
+            setAllTeamData(allTeamDataResponse);
+       
+            
+        }
+        fetchAllTeamMemberData();
+
+    }, [])
+    const baseURL="https://www.admin.mayonity.com/";
+    const TeamMembersData = AllTeamMembers.map((item, index) => (
         <div key={index} className="col-12 col-sm-6 col-lg-4">
             <div className="card team-card shadow">
                 <div className="card-body p-4 py-md-5 text-center">
                     <div className="member-img mb-4 rounded-circle">
-                        <img src={item.memberImage} alt={item.memberName} />
+                        <img src={baseURL+item.field_tm_memberimage} alt="Team Member" />
                     </div>
-                    <h6>{item.memberName}</h6>
-                    <p className="fz-14">{item.designation}</p>
+                    <h6>{item.field_tm_membername}</h6>
+                    <p className="fz-14">{item.field_tm_designation}</p>
                     <div className="border" />
-                    <Link className="mt-3 btn btn-dark btn-minimal fz-14" to={item.contactUrl} >
+                    {/* <Link className="mt-3 btn btn-dark btn-minimal fz-14" to={item.contactUrl} >
                         {item.contactText} {item.memberName} <i className="bi bi-caret-right-fill" />
-                    </Link>
+                    </Link> */}
                 </div>
             </div>
         </div>
@@ -38,7 +52,7 @@ export default function AllTeamMembers() {
             />
 
             <BreadcrumbOne 
-                breadcrumbImage="assets/img/bg-img/7.jpg" 
+                breadcrumbImage="assets/img/backimages/allTeamMember.jpg" 
                 breadcrumbTitle="Team Members" 
                 homePageUrl="/" 
                 homePageText="Home" 

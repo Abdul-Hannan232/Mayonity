@@ -63,7 +63,7 @@ export default function App() {
         <Route path="/business-studio" element={<BusinessStudio />} />
         <Route path="/saas-landing" element={<SaasLanding />} />
         <Route path="/seo-business" element={<SeoBusiness />} />
-
+ 
         <Route path="/portfolio" element={<PortfolioStandard />} />
         <Route path="/portfolio-creative" element={<PortfolioCreative />} />
         <Route path="/portfolio-full-width" element={<PortfolioFullWidth />} />

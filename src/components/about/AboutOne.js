@@ -4,7 +4,7 @@ import AboutText from "./AboutText";
 import SingleAbout from "./SingleAbout";
 // import AboutData from '../../data/about/about.json';
 
-export default function AboutOne() {
+export default function AboutOne() { 
     const [aboutData, setAboutData] = useState([]);
     const [aboutText, setAboutText] = useState();
 
