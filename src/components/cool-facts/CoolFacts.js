@@ -1,16 +1,24 @@
+import React from 'react';
 import { useEffect, useState } from 'react';
 import SectionHeading from '../heading/HeadingOne';
 import SingleCoolFact from './SingleCoolFact';
+import { BackEndUrlContext } from '../../BackEndUrlContext'
 
 export default function CoolFacts() {
+
+    const BackEndUrl = React.useContext(BackEndUrlContext);
     const [milestoneData,setMilestonedata] = useState();
 
     useEffect(() => {
         const fetchMilestonesData = async () => {
-            const [milestoneResponse] = await (await fetch("https://www.admin.mayonity.com/api/count-section?_format=json")).json();
+            try{
+            const [milestoneResponse] = await (await fetch(BackEndUrl+"/api/count-section?_format=json")).json();
 
             setMilestonedata(milestoneResponse);            
-            
+            }catch(e)
+            {
+                console.log("Internet Connection Problem",e);
+            }
         }
         fetchMilestonesData();
 

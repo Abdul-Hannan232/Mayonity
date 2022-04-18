@@ -1,9 +1,12 @@
+import React from 'react';
 import { useState, useEffect, useLayoutEffect } from 'react';
 import { Link } from "react-router-dom";
 import SingleTeamMember from "./SingleTeamMember";
 import TeamData from "../../data/team/team-member.json";
+import { BackEndUrlContext } from '../../BackEndUrlContext'
 
 export default function Team(props) {
+    const BackEndUrl = React.useContext(BackEndUrlContext);
     const [teamText, setTeamText] = useState([]);
     const [teamMates, setTeamMates] = useState([]);
 
@@ -11,18 +14,15 @@ export default function Team(props) {
 
     useLayoutEffect(() => {
         const fetchTeam = async () => {
-            const [teamTextResponse] = await (await fetch("https://www.admin.mayonity.com/api/home-team-info?_format=json")).json();
-
-            const teamMatesResponse = await (await fetch("https://www.admin.mayonity.com/api/all-team-members?_format=json")).json();
-
-            // https://www.admin.mayonity.com
-
-            console.log("teamTextResponse : ", teamTextResponse);
-            console.log("teamMatesResponse url img : ", teamMatesResponse[0].field_tm_memberimage);
-
+            try{
+            const [teamTextResponse] = await (await fetch(BackEndUrl+"/api/home-team-info?_format=json")).json();
+            const teamMatesResponse = await (await fetch(BackEndUrl+"/api/all-team-members?_format=json")).json();
             setTeamText(teamTextResponse);
             setTeamMates(teamMatesResponse);
-
+            }catch(e)
+            {
+                console.log("Internet Connection Problem",e);
+            }
         }
         fetchTeam();
 

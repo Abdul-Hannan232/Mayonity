@@ -26,16 +26,14 @@ export default function CreativeAgency() {
     const [homeCTA, sethomeCTA] = useState('');
     useEffect(() => {
         async function fetchMyAPI() {
-            
- 
-            try{let response =await (await fetch(BackEndUrl+"/api/home-banner?_format=json")).json();
-            setHomeBanner(response);
-            const homeCTAresp = await (await fetch(BackEndUrl+"/api/all-cta?_format=json")).json();
-            sethomeCTA(homeCTAresp[0])
-        }catch(e)
-        {
-            console.log("Internet Problem",e)
-        }
+            try {
+                let response = await (await fetch(BackEndUrl + "/api/home-banner?_format=json")).json();
+                setHomeBanner(response);
+                const homeCTAresp = await (await fetch(BackEndUrl + "/api/all-cta?_format=json")).json();
+                sethomeCTA(homeCTAresp[0])
+            } catch (e) {
+                console.log("Internet Problem", e)
+            }
         }
         fetchMyAPI()
     }, [])
@@ -69,14 +67,14 @@ export default function CreativeAgency() {
 
             <HeroOne
                 heroThumb="assets/img/illustrator/hero-3.png"
-                catagory={[apiData ? apiData.category1 : '', apiData ? apiData.category2 : '', apiData ? apiData.category3 : '']}
-                heading={apiData ? apiData.heading : ''}
-                para={apiData ? apiData.para : ''}
+                catagory={[apiData ? apiData.category1 : 'Home', apiData ? apiData.category2 : 'Development', apiData ? apiData.category3 : 'Branding']}
+                heading={apiData ? apiData.heading : 'Software Development Company'}
+                para={apiData ? apiData.para : 'More possibilities for your website. Create powerful digital solutions'}
                 buttons={[
                     {
                         buttonColor: "btn-warning",
-                        url: apiData ? apiData.btnurl : '',
-                        text: apiData ? apiData.btntext : ''
+                        url: apiData ? apiData.btnurl : '#',
+                        text: apiData ? apiData.btntext : 'Contect Us'
                     },
 
                 ]}
@@ -95,7 +93,7 @@ export default function CreativeAgency() {
             <Divider />
 
             <Divider />
-            
+
 
             {/* <Services /> */}
 
@@ -137,12 +135,12 @@ export default function CreativeAgency() {
             <BlogOne /> */}
 
             <Divider />
-            {console.log("homeCTA tes",homeCTA)}
+            
             <Cta1
-                CtaThumb={homeCTA?BackEndUrl+homeCTA.field_hc_image:''}
-                title={homeCTA?homeCTA.field_hc_mainheading:"Build a beautiful website very easily within few hours, not a day."}
-                btnUrl={homeCTA?homeCTA.field_hc_btn_link:"/contact"}
-                btnText={homeCTA?homeCTA.field_hc_btn_text:"Get started now"}
+                CtaThumb={homeCTA ? BackEndUrl + homeCTA.field_hc_image : ''}
+                title={homeCTA ? homeCTA.field_hc_mainheading : "Build a beautiful website very easily within few hours, not a day."}
+                btnUrl={homeCTA ? homeCTA.field_hc_btn_link : "/contact"}
+                btnText={homeCTA ? homeCTA.field_hc_btn_text : "Get started now"}
             />
 
             <Footer

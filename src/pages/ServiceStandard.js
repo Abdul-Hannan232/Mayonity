@@ -6,9 +6,32 @@ import VideoCard from "../components/video/VideoCard";
 import SEO from "../components/common/SEO";
 import Services from "../components/services/Services";
 import SingleService from "../components/services/SingleService";
-
+import { useContext, useEffect, useState } from "react";
+import { BackEndUrlContext } from '../BackEndUrlContext'
 
 export default function ServiceStandard() {
+
+
+    const BackEndUrl = useContext(BackEndUrlContext);
+
+    const [homeBanner, setHomeBanner] = useState('');
+    const [homeCTA, sethomeCTA] = useState('');
+    useEffect(() => {
+        async function fetchMyAPI() {
+            
+ 
+            try{let response =await (await fetch(BackEndUrl+"/api/home-banner?_format=json")).json();
+            setHomeBanner(response);
+            const homeCTAresp = await (await fetch(BackEndUrl+"/api/all-cta?_format=json")).json();
+            sethomeCTA(homeCTAresp[0])
+        }catch(e)
+        {
+            console.log("Internet Problem",e)
+        }
+        }
+        fetchMyAPI()
+    }, [])
+
     return (
         <>
             <SEO title="Service Standard" />
@@ -23,14 +46,15 @@ export default function ServiceStandard() {
                 breadcrumbTitle="Service Standard"
                 homePageUrl="/"
                 homePageText="Home"
-                currentPageText="Service"
+                currentPageText="Service" 
             />
 <br /><br /><br />
            
             <div className="container">
-                <div className="row justify-content-center g-4 g-xl-5">
+                <div className="row justify-content-center g-4 g-xl-5"> 
 
                        {/* Single Service */}
+
                     <SingleService 
                         iconBgColor="" 
                         iconName="bi-app-indicator" 

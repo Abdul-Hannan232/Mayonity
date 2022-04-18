@@ -1,15 +1,19 @@
 import { useEffect, useState } from 'react';
-
+import React from 'react';
 import AboutText from "./AboutText";
 import SingleAbout from "./SingleAbout";
+import { BackEndUrlContext } from '../../BackEndUrlContext'
+
+
 // import AboutData from '../../data/about/about.json';
 
 export default function AboutOne() { 
+    const BackEndUrl = React.useContext(BackEndUrlContext);
     const [aboutData, setAboutData] = useState([]);
     const [aboutText, setAboutText] = useState();
 
     // const aboutItems = AboutData.slice(0, 4);
-    const abouts = aboutData?.map((about, index) =>
+    const abouts = aboutData?.map((about, index) => 
         <SingleAbout
             key={index}
             // bgColor={about.bgColor}
@@ -24,12 +28,18 @@ export default function AboutOne() {
 
     useEffect(() => {
         const fetchAboutData = async () => {
-            const aboutDataResponse = await (await fetch("https://www.admin.mayonity.com/api/all-services?_format=json")).json();
+            try{
+            const aboutDataResponse = await (await fetch(BackEndUrl+"api/all-services?_format=json")).json();
 
-            const [aboutTextResponse] = await (await fetch("https://www.admin.mayonity.com/api/key-services?_format=json")).json();
+            const [aboutTextResponse] = await (await fetch(BackEndUrl+"/api/key-services?_format=json")).json();
 
             setAboutData(aboutDataResponse);
             setAboutText(aboutTextResponse)
+            }
+            catch(e)
+            {
+                console.log("Internet Connection Problem",e);
+            }
             
         }
         fetchAboutData();

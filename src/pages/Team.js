@@ -7,27 +7,36 @@ import Footer from "../components/footer/Footer";
 import TeamData from "../data/team/team-member.json";
 import SEO from "../components/common/SEO";
 import React from "react";
+import { BackEndUrlContext } from '../BackEndUrlContext'
+
 
 export default function AllTeamMembers() {  
-const[AllTeamMembers,setAllTeamData]=React.useState([]);
+    const BackEndUrl = React.useContext(BackEndUrlContext);
+    const[AllTeamMembers,setAllTeamData]=React.useState([]);
+
     React.useEffect(() => {
         const fetchAllTeamMemberData = async () => {
-            const allTeamDataResponse = await (await fetch("https://www.admin.mayonity.com/api/all-team-members?_format=json")).json();
+            try{
+            const allTeamDataResponse = await (await fetch(BackEndUrl+"/api/all-team-members?_format=json")).json();
           console.log("all team member",allTeamDataResponse);
             setAllTeamData(allTeamDataResponse);
-       
+            }catch(e)
+            {
+                console.log("Internet Connection Problem",e);
+            }
             
         }
         fetchAllTeamMemberData();
 
     }, [])
-    const baseURL="https://www.admin.mayonity.com/";
+   
+
     const TeamMembersData = AllTeamMembers.map((item, index) => (
         <div key={index} className="col-12 col-sm-6 col-lg-4">
             <div className="card team-card shadow">
                 <div className="card-body p-4 py-md-5 text-center">
                     <div className="member-img mb-4 rounded-circle">
-                        <img src={baseURL+item.field_tm_memberimage} alt="Team Member" />
+                        <img src={BackEndUrl+item.field_tm_memberimage} alt="Team Member" />
                     </div>
                     <h6>{item.field_tm_membername}</h6>
                     <p className="fz-14">{item.field_tm_designation}</p>

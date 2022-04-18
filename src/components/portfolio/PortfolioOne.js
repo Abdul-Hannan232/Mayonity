@@ -1,27 +1,28 @@
+import React from "react";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import TinySlider from "tiny-slider-react";
 import SectionHeadingTwo from "../heading/HeadingTwo";
 import PortfolioData from '../../data/portfolio/portfolio-one.json';
+import { BackEndUrlContext } from '../../BackEndUrlContext'
 
 export default function PortfolioOne() {
+
+    const BackEndUrl = React.useContext(BackEndUrlContext);
     const [portfolioText, setPortfolioText] = useState();
     const [portfolioProjects, setportfolioProjects] = useState([]);
 
     useEffect(() => {
         const fetchPortfolio = async () => {
-            const [portfolioTextResponse] = await (await fetch("https://www.admin.mayonity.com/api/home-portfolio-info?_format=json")).json();
-
-            const portfolioProjectsResponse = await (await fetch("https://www.admin.mayonity.com/api/portfolio-projects?_format=json")).json();
-
-            // https://www.admin.mayonity.com
-
-            console.log("portfolioTextResponse : ", portfolioTextResponse);
-            console.log("portfolioProjectsResponse : ", portfolioProjectsResponse);
-
+            try{
+            const [portfolioTextResponse] = await (await fetch(BackEndUrl+"/api/home-portfolio-info?_format=json")).json();
+            const portfolioProjectsResponse = await (await fetch(BackEndUrl+"/api/portfolio-projects?_format=json")).json();
             setPortfolioText(portfolioTextResponse);
             setportfolioProjects(portfolioProjectsResponse);
-
+            }catch(e)
+            {
+                console.log("Internet Connection Problem",e);
+            }
         }
         fetchPortfolio();
 
