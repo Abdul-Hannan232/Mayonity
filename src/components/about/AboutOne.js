@@ -29,7 +29,7 @@ export default function AboutOne() {
     useEffect(() => {
         const fetchAboutData = async () => {
             try{
-            const aboutDataResponse = await (await fetch(BackEndUrl+"api/all-services?_format=json")).json();
+            const aboutDataResponse = await (await fetch(BackEndUrl+"/api/all-services?_format=json")).json();
 
             const [aboutTextResponse] = await (await fetch(BackEndUrl+"/api/key-services?_format=json")).json();
 
